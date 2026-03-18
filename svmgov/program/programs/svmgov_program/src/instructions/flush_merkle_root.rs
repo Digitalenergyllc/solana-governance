@@ -47,6 +47,12 @@ impl<'info> FlushMerkleRoot<'info> {
     pub fn flush_merkle_root(&mut self) -> Result<()> {
         let clock = Clock::get()?;
 
+        // Prevent flushing once voting has started
+        require!(
+            clock.epoch < self.proposal.start_epoch,
+            GovernanceError::CannotModifyAfterStart
+        );
+
         // Clear the consensus_result
         require!(
             self.proposal.snapshot_slot > 0,

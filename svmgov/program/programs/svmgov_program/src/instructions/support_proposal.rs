@@ -109,6 +109,7 @@ impl<'info> SupportProposal<'info> {
         proposal_account.voting = if new_support_stake >= cluster_min_stake {
             // this is for emit checks
             current_voting_emit = true;
+
             let (start_slot, _) =
                 get_epoch_slot_range(clock.epoch + self.global_config.discussion_epochs + self.global_config.snapshot_epoch_extension);
             snapshot_slot = start_slot + 1000;
